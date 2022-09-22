@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="/github-light.css" />
+    <link rel="stylesheet" href="/gitline-add.css" />
+    <link rel="stylesheet" href="/gitline.min.css" />
+    <link rel="stylesheet" href="/normalize.css" />
+    <link rel="stylesheet" href="/stylesheet.css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/jquery-2.1.4.min.js"></script>
+    <script src="/jsgl.min.js"></script>
+    <script src="/logger.min.js"></script>
+    <script src="/moment.min.js"></script>
+    <script src="/md5.js"></script>
+    <script src="/gitline.min.js"></script>
+
+    <title>Tauri + React + TS</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <div id="graph"></div>
+
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      Logger.useDefaults();
+      Gitline.create()
+        .fromJSON("http://localhost:3000/git-log-tree?path=~/dev/gitline")
+        .renderTo($("#graph").get(0));
+    </script>
+    <script>
+      const graph = document.querySelector("#graph");
+      console.log(graph);
+    </script>
+  </body>
+</html>
