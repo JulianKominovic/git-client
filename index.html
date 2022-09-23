@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="/github-light.css" />
     <link rel="stylesheet" href="/gitline-add.css" />
     <link rel="stylesheet" href="/gitline.min.css" />
-    <link rel="stylesheet" href="/normalize.css" />
-    <link rel="stylesheet" href="/stylesheet.css" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/jquery-2.1.4.min.js"></script>
@@ -24,16 +22,60 @@
     <div id="root"></div>
     <div id="graph"></div>
 
+    <script>
+      if (!localStorage.getItem("info"))
+        localStorage.setItem(
+          "info",
+          JSON.stringify({ cwd: "~/", limit: "30" })
+        );
+      const graphContainer = document.querySelector("#graph");
+      const clearErrorContainer = () => {};
+      const mutationObserver = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          console.log("Mutation Observer");
+          const errorPanel = document.querySelector("gitline-loadingpanel");
+          if (!errorPanel) return;
+          if (
+            errorPanel.textContent.includes(`TypeError`) &&
+            errorPanel.textContent.includes("this.firstCommit.view")
+          ) {
+            console.log("VOLANDO TODO EL ERROR");
+            graphContainer.innerHTML = "";
+          }
+        });
+      });
+      // START OBSERVING GRAPH CONTAINER
+      mutationObserver.observe(graphContainer, {
+        attributes: false,
+        characterData: false,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: false,
+      });
+
+      const cleanRender = ({ cwd = "~/", limit = "30" }) => {
+        console.log("RENDERING TREE!", { cwd, limit });
+        graphContainer.innerHTML = "";
+
+        Gitline.create()
+          .fromJSON(
+            `http://localhost:3000/git-log-tree?path=${cwd}&limit=${limit}`
+          )
+          .renderTo($("#graph").get(0), () => {});
+      };
+      cleanRender({
+        cwd: JSON.parse(localStorage.getItem("info")).cwd,
+        limit: "30",
+      });
+
+      var originalSetItem = localStorage.setItem;
+      localStorage.setItem = function () {
+        const info = JSON.parse(arguments[1]);
+        cleanRender(info);
+        originalSetItem.apply(this, arguments);
+      };
+    </script>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      Logger.useDefaults();
-      Gitline.create()
-        .fromJSON("http://localhost:3000/git-log-tree?path=~/dev/gitline")
-        .renderTo($("#graph").get(0));
-    </script>
-    <script>
-      const graph = document.querySelector("#graph");
-      console.log(graph);
-    </script>
   </body>
 </html>

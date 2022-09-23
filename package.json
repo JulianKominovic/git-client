@@ -13,6 +13,7 @@
   "dependencies": {
     "@dvsl/zoomcharts": "1.19.2-1",
     "@tauri-apps/api": "^1.1.0",
+    "feather-icons-react": "^0.5.0",
     "graphology": "^0.24.1",
     "primeicons": "^5.0.0",
     "primereact": "^8.5.0",

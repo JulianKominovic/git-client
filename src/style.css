@@ -5,11 +5,76 @@
   font-weight: 400;
 
   color: #0f0f0f;
-  background-color: #f6f6f6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --border-radius-2: 8px;
+  --border-radius-1: 4px;
+  --padding-2: 8px;
+  --padding-1-5: 6px;
+  --padding-1: 4px;
+  --shadow-md: 0 6px 24px 0 rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 0 16px 0 rgba(0, 0, 0, 0.1);
+}
+
+body {
+}
+
+gitline-legend {
+  background-color: #fff;
+  border-radius: 1px solid #ececec;
+}
+
+.p-submenu-list {
+  border-radius: var(--border-radius-2);
+  padding: var(--padding-1);
+  top: calc(100% + 6px);
+}
+.p-menubar .p-submenu-list {
+  box-shadow: var(--shadow-md);
+}
+.p-menubar-root-list > .p-menuitem-active > .p-submenu-list {
+  padding: var(--padding-1);
+}
+.p-menubar .p-menuitem.p-menuitem-active > .p-menuitem-link,
+.p-menuitem .p-menuitem-active,
+.p-menuitem {
+  border-radius: var(--border-radius-1);
+}
+.p-menuitem,
+.p-menubar .p-submenu-list > .p-menuitem-active > .p-submenu-list {
+  padding: var(--padding-1);
+}
+.p-menubar-root-list > .p-menuitem.p-menuitem-active {
+  box-shadow: var(--shadow-md);
+  background: #fff;
+}
+.p-breadcrumb ul li.p-breadcrumb-chevron {
+  font-size: 12px;
+}
+.p-breadcrumb.p-component {
+  padding: 0;
+  display: inline-block;
+  border: none;
+}
+
+.p-breadcrumb.p-component > ul {
+  margin: 12px;
+  padding: 12px;
+  border-radius: var(--border-radius-2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+}
+[aria-label="Breadcrumb"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

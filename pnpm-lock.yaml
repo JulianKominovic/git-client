@@ -9,6 +9,7 @@ specifiers:
   '@types/react-dom': ^18.0.6
   '@types/zingchart': ^2.8.24
   '@vitejs/plugin-react': ^2.0.0
+  feather-icons-react: ^0.5.0
   graphology: ^0.24.1
   primeicons: ^5.0.0
   primereact: ^8.5.0
@@ -29,6 +30,7 @@ specifiers:
 dependencies:
   '@dvsl/zoomcharts': 1.19.2-1
   '@tauri-apps/api': 1.1.0
+  feather-icons-react: 0.5.0
   graphology: 0.24.1
   primeicons: 5.0.0
   primereact: 8.5.0_5jhpos2yhmfxn5vefv3krue7oq
@@ -2269,6 +2271,10 @@ packages:
       promise: 7.3.1
       setimmediate: 1.0.5
       ua-parser-js: 0.7.31
+    dev: false
+
+  /feather-icons-react/0.5.0:
+    resolution: {integrity: sha512-k7y6JnghcwLi3uo5SaSnnngfHOE+IPpAFzlsmNhlXwbP8jev2rOYbEq1g5lhMglbV934KhcaSbo3DYV32I3/Ug==}
     dev: false
 
   /file-uri-to-path/1.0.0:
