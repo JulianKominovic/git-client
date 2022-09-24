@@ -29,10 +29,15 @@
           JSON.stringify({ cwd: "~/", limit: "30" })
         );
       const graphContainer = document.querySelector("#graph");
-      const clearErrorContainer = () => {};
+
       const mutationObserver = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
-          console.log("Mutation Observer");
+          if (
+            mutation.target.id === "graph" &&
+            mutation.type === "attributes"
+          ) {
+            cleanRender({ cwd: JSON.parse(localStorage.getItem("info")).cwd });
+          }
           const errorPanel = document.querySelector("gitline-loadingpanel");
           if (!errorPanel) return;
           if (
@@ -46,7 +51,7 @@
       });
       // START OBSERVING GRAPH CONTAINER
       mutationObserver.observe(graphContainer, {
-        attributes: false,
+        attributes: true,
         characterData: false,
         childList: true,
         subtree: true,

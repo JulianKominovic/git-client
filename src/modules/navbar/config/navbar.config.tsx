@@ -2,10 +2,24 @@ import { open } from "@tauri-apps/api/dialog";
 import React, { useState } from "react";
 import useCWD from "../../../actions/currentWorkingDirectory";
 import FeatherIcon from "feather-icons-react";
+import NavbarTabMenuItem from "../components/NavbarTabMenuItem";
+import { useLocation, useNavigate } from "react-router-dom";
+
+const ROUTES = {
+  HOME: "/",
+  BRANCHES: "/branches",
+  COMMITS: "/commits",
+  TAGS: "/tags",
+  CONFIG: "/config",
+};
 
 export const useNavbarConfig = () => {
   const { cwd, setCWD } = useCWD((state) => state);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [activeIndex, setActiveIndex] = useState(() =>
+    Object.values(ROUTES).findIndex((route) => route === location.pathname)
+  );
 
   const NAVBAR_CONFIG = [
     {
@@ -146,28 +160,49 @@ export const useNavbarConfig = () => {
         .filter((section) => section.label)
     : [{ label: "Elegí un directorio" }];
   const TABMENU_CONFIG = [
-    { label: "Git tree", icon: "pi pi-fw pi-home" },
+    {
+      label: "Git tree",
+      icon: "pi pi-fw pi-home",
+      command: () => navigate(ROUTES.HOME),
+    },
     {
       label: "Branches",
       template: () => {
         return (
-          <a
-            href="#"
-            className="p-menuitem-link"
-            role="presentation"
-            onClick={() => setActiveIndex(1)}
-          >
-            <span className="p-menuitem-icon pi pi-fw ">
-              <FeatherIcon icon="git-branch" />
-            </span>
-            <span className="p-menuitem-text">Branches</span>
-          </a>
+          <NavbarTabMenuItem
+            icon={<FeatherIcon icon="git-branch" />}
+            tabName="Branches"
+            index={1}
+            setActiveIndex={setActiveIndex}
+            onClick={() => navigate(ROUTES.BRANCHES)}
+          />
         );
       },
     },
-    { label: "Commits", icon: "pi pi-fw pi-pencil" },
-    { label: "Tags", icon: "pi pi-fw pi-tags" },
-    { label: "Misc", icon: "pi pi-fw pi-cog" },
+    {
+      label: "Commits",
+      template: () => {
+        return (
+          <NavbarTabMenuItem
+            icon={<FeatherIcon icon="git-commit" />}
+            tabName="Commits"
+            index={2}
+            setActiveIndex={setActiveIndex}
+            onClick={() => navigate(ROUTES.COMMITS)}
+          />
+        );
+      },
+    },
+    {
+      label: "Tags",
+      icon: "pi pi-fw pi-tags",
+      command: () => navigate(ROUTES.TAGS),
+    },
+    {
+      label: "Misc",
+      icon: "pi pi-fw pi-cog",
+      command: () => navigate(ROUTES.CONFIG),
+    },
   ];
   return {
     NAVBAR_CONFIG,
