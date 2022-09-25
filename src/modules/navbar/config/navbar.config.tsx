@@ -4,6 +4,10 @@ import useCWD from "../../../actions/currentWorkingDirectory";
 import FeatherIcon from "feather-icons-react";
 import NavbarTabMenuItem from "../components/NavbarTabMenuItem";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MenuItem, MenuItemTemplateType } from "primereact/menuitem";
+import { BiGitBranch, BiPlusCircle } from "react-icons/bi";
+import useCurrentStatus from "../../../actions/currentStatus";
+import { Tag } from "primereact/tag";
 
 const ROUTES = {
   HOME: "/",
@@ -15,13 +19,14 @@ const ROUTES = {
 
 export const useNavbarConfig = () => {
   const { cwd, setCWD } = useCWD((state) => state);
+  const currentBranch = useCurrentStatus((state) => state.currentBranch);
   const navigate = useNavigate();
   const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(() =>
     Object.values(ROUTES).findIndex((route) => route === location.pathname)
   );
 
-  const NAVBAR_CONFIG = [
+  const NAVBAR_CONFIG: MenuItem[] = [
     {
       label: "File",
       icon: "pi pi-fw pi-file",
@@ -45,38 +50,39 @@ export const useNavbarConfig = () => {
             );
           },
         },
-        {
-          label: "Delete",
-          icon: "pi pi-fw pi-trash",
-        },
-        {
-          separator: true,
-        },
-        {
-          label: "Export",
-          icon: "pi pi-fw pi-external-link",
-        },
       ],
     },
     {
-      label: "Edit",
+      label: "Branch",
       icon: "pi pi-fw pi-pencil",
+      template: (item, options) => (
+        <a
+          href="#"
+          role="menuitem"
+          className="p-menuitem-link"
+          aria-haspopup="true"
+          onClick={options.onClick}
+        >
+          <BiGitBranch />
+          <span className="p-menuitem-text">Branches</span>
+          <span className="p-submenu-icon pi pi-angle-down"></span>
+        </a>
+      ),
       items: [
         {
           label: "Left",
-          icon: "pi pi-fw pi-align-left",
-        },
-        {
-          label: "Right",
-          icon: "pi pi-fw pi-align-right",
-        },
-        {
-          label: "Center",
-          icon: "pi pi-fw pi-align-center",
-        },
-        {
-          label: "Justify",
-          icon: "pi pi-fw pi-align-justify",
+
+          template: () => (
+            <a
+              href="#"
+              role="menuitem"
+              className="p-menuitem-link"
+              aria-haspopup="false"
+            >
+              <BiPlusCircle className="mr-2" />
+              <span className="p-menuitem-text">Nueva branch</span>
+            </a>
+          ),
         },
       ],
     },
@@ -144,6 +150,7 @@ export const useNavbarConfig = () => {
         },
       ],
     },
+
     {
       label: "Quit",
       icon: "pi pi-fw pi-power-off",
@@ -151,13 +158,24 @@ export const useNavbarConfig = () => {
   ];
 
   const BREADCUMB_CONFIG = cwd
-    ? cwd
-        .split("/")
-        .map((folder) => {
-          const section = folder.replace("/", "");
-          return { label: section };
-        })
-        .filter((section) => section.label)
+    ? [
+        ...cwd
+          .split("/")
+          .map((folder) => {
+            const section = folder.replace("/", "");
+            return { label: section };
+          })
+          .filter((section) => section.label),
+        {
+          template: () => (
+            <>
+              <Tag severity="info" icon={<BiGitBranch />}>
+                {currentBranch}
+              </Tag>
+            </>
+          ),
+        },
+      ]
     : [{ label: "Elegí un directorio" }];
   const TABMENU_CONFIG = [
     {

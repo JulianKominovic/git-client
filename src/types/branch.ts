@@ -5,6 +5,7 @@ export type Branch = {
   commit: string;
   label: string;
   key: string;
+  fullName: string;
   origin: "LOCAL" | "REMOTE";
   gitflowType: "FEATURE" | "BUGFIX" | "RELEASE" | "HOTFIX" | "UNKNOWN";
 };

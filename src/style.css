@@ -17,7 +17,7 @@
   --padding-1-5: 6px;
   --padding-1: 4px;
   --shadow-md: 0 6px 24px 0 rgba(0, 0, 0, 0.1);
-  --shadow-sm: 0 0 16px 0 rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 0 16px 0 rgba(0, 0, 0, 0.05);
 }
 
 body {
@@ -173,10 +173,40 @@ gitline-legend {
 }
 #root > div:nth-child(3) > div > div.p-datatable-wrapper > table {
   border-radius: var(--border-radius-2);
+  overflow: hidden;
 }
 #root > div:nth-child(3) > div > div.p-datatable-wrapper > table > tbody {
   border-radius: var(--border-radius-2);
 }
 .p-multiselect-items-wrapper {
   max-height: unset !important;
+}
+table {
+  border-collapse: collapse;
+}
+@media (max-width: 900px) {
+  tr {
+    border-bottom: 20px solid var(--cyan-50);
+  }
+}
+
+.p-column-filter.p-fluid.p-column-filter-row
+  .p-column-filter-menu-button.p-link {
+  display: none;
+}
+
+.p-column-filter.p-fluid.p-column-filter-row
+  .p-column-filter-clear-button.p-link {
+  display: none;
+}
+
+.gitflow-column,
+.branch-name-column,
+.branch-label-column,
+.branch-localization-column {
+  max-width: 260px;
+  min-width: 260px;
+}
+.mr-2 {
+  margin-right: 8px;
 }
